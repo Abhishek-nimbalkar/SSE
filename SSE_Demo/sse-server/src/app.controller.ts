@@ -4,8 +4,7 @@ import { AppService } from './app.service';
 
 @Controller('/')
 export class AppController {
-  private clients: any[] = [];
-  private facts: any[] = [];
+  // private facts: any[] = [];
   constructor(private readonly appService: AppService) {}
 
   @Get('/')
@@ -14,7 +13,7 @@ export class AppController {
   }
   @Get('status')
   getStatusOfClients(@Req() req: Request, @Res() res: Response): any {
-    return this.appService.getStatusOfClient(req, res, this.clients);
+    return this.appService.getStatusOfClient(req, res);
   }
 
   @Get('events')
@@ -23,20 +22,6 @@ export class AppController {
     @Res() res: Response,
     @Next() next: NextFunction,
   ): any {
-    return this.appService.eventsHandler(
-      req,
-      res,
-      next,
-      this.clients,
-      this.facts,
-    );
-  }
-  @Post('fact')
-  addFact(
-    @Req() req: Request,
-    @Res() res: Response,
-    @Next() next: NextFunction,
-  ): any {
-    this.appService.addFact(req, res, next, this.facts, this.clients);
+    return this.appService.eventsHandler(req, res, next);
   }
 }
